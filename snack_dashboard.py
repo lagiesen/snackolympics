@@ -243,7 +243,7 @@ else:
 
             for cat, snack, avg in found_cats:
                 agreement_sentences.append(
-                    f"You both really liked the <b>{cat.lower()}</b> of <b>{snack}</b> ({avg:.1f} / 6)"
+                    f"You both really liked the <b>{cat.lower()}</b> of <b>{snack}</b> (avg. {avg:.1f} out of 6)"
                 )
     except KeyError:
         agreement_sentences = []
