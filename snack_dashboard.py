@@ -250,7 +250,7 @@ else:
                 r2 = round(p2_data.loc[snack, cat])
                 agreement_sentences.append(
                     f"<br>You both really liked the <b>{cat.lower()}</b> of <b>{snack}</b> "
-                    f"({selected_person}: {r1}, {most_similar_name}: {r2})<br>"
+                    f"({selected_person}: {r1}, {most_similar_name}: {r2})"
                 )
     except KeyError:
         agreement_sentences = []
