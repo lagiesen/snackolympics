@@ -208,7 +208,7 @@ else:
     least_similar_name = dist_matrix.loc[selected_person].idxmax()
     least_similar_score = round(dist_matrix.loc[selected_person].max(), 2)
 
-    # ── Find shared agreements ────────────────────────────────────────────────
+       # ── Find shared agreements ────────────────────────────────────────────────
     # Per-person, per-snack, per-category averages
     person_detail = (
         df.groupby([COL_NAME, "Snack Label"])[RATING_COLS]
@@ -216,15 +216,15 @@ else:
         .round(2)
     )
     person_detail.columns = RATING_LABELS
-
+ 
     # Find snacks rated by both people
     try:
         p1_data = person_detail.loc[selected_person]
         p2_data = person_detail.loc[most_similar_name]
         shared_snacks = p1_data.index.intersection(p2_data.index)
-
+ 
         agreement_sentences = []
-
+ 
         if len(shared_snacks) > 0:
             # Try preferred categories first (Flavour, Texture), then fall back
             found_cats = []
@@ -244,19 +244,22 @@ else:
                             best_snack = snack
                 if best_snack:
                     found_cats.append((cat, best_snack, round(best_avg, 1)))
-
+ 
             for cat, snack, avg in found_cats:
+                r1 = round(p1_data.loc[snack, cat])
+                r2 = round(p2_data.loc[snack, cat])
                 agreement_sentences.append(
-                    f"You both really liked the <b>{cat.lower()}</b> of <b>{snack}</b> (avg. {avg:.1f} out of 6)"
+                    f"You both really liked the <b>{cat.lower()}</b> of <b>{snack}</b> "
+                    f"({selected_person}: {r1}, {most_similar_name}: {r2})"
                 )
     except KeyError:
         agreement_sentences = []
-
+ 
     # ── Render match box ─────────────────────────────────────────────────────
     agreement_html = ""
     if agreement_sentences:
         agreement_html = "<br>" + "<br>".join(agreement_sentences)
-
+ 
     st.markdown(f"""
     <div class="match-box">
         <b>{selected_person}'s</b> taste is most similar to <b>{most_similar_name}'s</b>
