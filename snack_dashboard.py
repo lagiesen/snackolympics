@@ -100,6 +100,7 @@ st.title("🍿 Snack Ratings")
 def load_data():
     df = pd.read_csv(SHEET_URL)
     df = df.dropna(subset=[COL_NAME, COL_SNACK] + RATING_COLS)
+    df[COL_NAME] = df[COL_NAME].astype(str).str.strip()
     for col in RATING_COLS:
         df[col] = pd.to_numeric(df[col], errors="coerce")
     df = df.dropna(subset=RATING_COLS)
