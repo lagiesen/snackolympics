@@ -152,8 +152,12 @@ st.divider()
 
 st.header("🏆 Top Snacks")
 
+snack_rater_counts = df.groupby("Snack Label")[COL_NAME].nunique()
+qualified_snacks = snack_rater_counts[snack_rater_counts >= 3].index
+
 snack_avgs = (
-    df.groupby("Snack Label")[RATING_COLS]
+    df[df["Snack Label"].isin(qualified_snacks)]
+    .groupby("Snack Label")[RATING_COLS]
     .mean()
     .round(2)
     .reset_index()
